@@ -1,5 +1,7 @@
 import mysql.connector
 
+#connecting the python file with the sql database
+
 connect = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -15,6 +17,8 @@ def new_player():
     cursor.execute("select username from users")
     data = cursor.fetchall()
 
+#checking if the name exists in the database
+    
     name_list = []
     for i in data:
 
@@ -33,9 +37,14 @@ def new_player():
         return cursor.lastrowid
 
 def question(level_num):
+
+#extracting the questions from the sql database
+    
     table = "level" + str(level_num)
     cursor.execute("SELECT * FROM " + table + " ORDER BY RAND() LIMIT 1")
     question = cursor.fetchone()
+
+#displaying the questions along with the options
 
     print(question[1])
     print("a.", question[2])
@@ -52,6 +61,7 @@ def play_game(user_id):
     amount_won = 0
     questions_correct = 0
 
+#the main part of the game, calling the question function and mainting the records of the user
 
     for level in range(1, 9):
 
@@ -84,6 +94,9 @@ def show_leaderboard():
         print(i, ".", row[0], "- ₹", row[1])
 
 def main():
+
+#menu driven function with choices to select
+    
     while True:
         print("\n=== TRIVIA GAME ===")
         print("1. Play")
